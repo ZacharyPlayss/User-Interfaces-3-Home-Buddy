@@ -1,0 +1,42 @@
+import type {SVGProps} from "react"
+
+interface LockProps extends SVGProps<SVGSVGElement> {
+    isOpen: boolean
+}
+
+export function LockSvg({isOpen, ...props}: LockProps) {
+    return (
+        <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 125 178"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            xmlSpace="preserve"
+            style={{
+                fillRule: "evenodd",
+                clipRule: "evenodd",
+                strokeLinejoin: "round",
+                strokeMiterlimit: 2,
+            }}
+            {...props}
+        >
+            <path
+                id="lock_top"
+                d="M100.8,84.027l-12,-0c0,-21.645 0.48,-58.156 0,-63.552c-16.523,-13.613 -31.673,-13.99 -48,-1.248c-0.448,3.607 -0.024,27.089 0,40.8l-12,-0c-0.105,-13.653 -0.348,-36.305 0,-40.8c7.086,-13.666 20.216,-19.681 38.4,-19.2c13.831,0.365 25.054,6.818 33.6,19.2c0.071,2.607 0.041,43.323 0,64.8Z"
+                style={{
+                    fill: "#afafaf",
+                }}
+                transform={isOpen ? "translate(0,0)" : "translate(0,15)"}
+            />
+            <path
+                id="lock_base"
+                d="M124.8,84.747l0,82.56c0,5.695 -4.624,10.32 -10.32,10.32l-104.16,-0c-5.696,-0 -10.32,-4.625 -10.32,-10.32l0,-82.56c0,-5.696 4.624,-10.32 10.32,-10.32l104.16,-0c5.696,-0 10.32,4.624 10.32,10.32Z"
+                style={{
+                    fill: "#fac88e",
+                }}
+            />
+        </svg>
+    )
+}
+

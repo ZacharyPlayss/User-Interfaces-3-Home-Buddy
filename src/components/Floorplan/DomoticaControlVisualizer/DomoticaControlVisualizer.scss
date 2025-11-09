@@ -1,0 +1,29 @@
+.domoticacontrol-outer-circle-color{
+  background:#E26E00 !important;
+}
+.domoticacontrol-outer-circle-base{
+  position:relative;
+  overflow:hidden;
+  background:white;
+  cursor:pointer;
+  border-radius: 50%;
+  width:4rem;
+  height:4rem;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+.domoticacontrol-inner-circle{
+  background:white;
+  cursor:pointer;
+  border-radius: 50%;
+  width:3.5rem;
+  height:3.5rem;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.test{
+  background:hotpink;
+}

@@ -1,0 +1,371 @@
+{
+  "floors": [
+    {
+      "id": "0089",
+      "name": "Gelijkvloers",
+      "description": "De hoofdvloer van het gebouw",
+      "width": 25,
+      "height": 15,
+      "x": 0,
+      "y": 0,
+      "level": 0
+    },
+    {
+      "id": "9a0d",
+      "name": "Eerste verdieping",
+      "description": "",
+      "width": 20,
+      "height": 15,
+      "x": 0,
+      "y": 0,
+      "level": 1
+    },
+    {
+      "id": "9f44",
+      "name": "Garage",
+      "description": "",
+      "width": 25,
+      "height": 15,
+      "x": 0,
+      "y": 0,
+      "level": -1
+    }
+  ],
+  "rooms": [
+    {
+      "id": "bd4d",
+      "name": "Woonkamer",
+      "description": "",
+      "width": 12,
+      "height": 15,
+      "maxWidth": 25,
+      "maxHeight": 15,
+      "x": 0,
+      "y": 0,
+      "floorId": "0089"
+    },
+    {
+      "id": "d601",
+      "name": "Keuken",
+      "description": "",
+      "width": 14,
+      "height": 8,
+      "maxWidth": 25,
+      "maxHeight": 15,
+      "x": 11,
+      "y": 0,
+      "floorId": "0089"
+    },
+    {
+      "id": "6ee4",
+      "name": "Eetkamer",
+      "description": "",
+      "width": 14,
+      "height": 8,
+      "maxWidth": 25,
+      "maxHeight": 15,
+      "x": 11,
+      "y": 7,
+      "floorId": "0089"
+    },
+    {
+      "id": "82a9",
+      "name": "Hoofdslaapkamer",
+      "description": "",
+      "width": 13,
+      "height": 10,
+      "maxWidth": 20,
+      "maxHeight": 15,
+      "x": 0,
+      "y": 5,
+      "floorId": "9a0d"
+    },
+    {
+      "id": "f238",
+      "name": "Badkamer",
+      "description": "",
+      "width": 8,
+      "height": 10,
+      "maxWidth": 25,
+      "maxHeight": 15,
+      "x": 12,
+      "y": 5,
+      "floorId": "9a0d"
+    },
+    {
+      "id": "2293",
+      "name": "Werkruimte",
+      "description": "Een nieuwe kamer",
+      "width": 20,
+      "height": 6,
+      "maxWidth": 25,
+      "maxHeight": 15,
+      "x": 0,
+      "y": 0,
+      "floorId": "9a0d"
+    },
+    {
+      "id": "8b34",
+      "name": "Garage",
+      "description": "Een plaats voor de wagen",
+      "width": 25,
+      "height": 15,
+      "maxWidth": 25,
+      "maxHeight": 15,
+      "x": 0,
+      "y": 0,
+      "floorId": "9f44"
+    }
+  ],
+  "domoticaControls": [
+    {
+      "id": "9c7f",
+      "name": "Verwarming badkamer",
+      "upcCode": "1111111111111",
+      "x": 2,
+      "y": 3,
+      "description": "",
+      "roomId": "f238",
+      "type": "verwarming",
+      "value": {
+        "temperature": 23
+      },
+      "defaultValue": {
+        "temperature": 16
+      }
+    },
+    {
+      "id": "ca0d",
+      "name": "Slaapkamer lamp",
+      "upcCode": "1111111111111",
+      "x": 5,
+      "y": 3,
+      "description": "Grote hanglamp",
+      "roomId": "82a9",
+      "type": "licht",
+      "value": {
+        "on_off": "off",
+        "brightness": 100
+      },
+      "defaultValue": {
+        "on_off": "off",
+        "brightness": 100
+      }
+    },
+    {
+      "id": "3501",
+      "name": "Nachtlampje Links",
+      "upcCode": "1111111111111",
+      "x": 0,
+      "y": 5,
+      "description": "",
+      "roomId": "82a9",
+      "type": "licht",
+      "value": {
+        "on_off": "off",
+        "brightness": 100
+      },
+      "defaultValue": {
+        "on_off": "off",
+        "brightness": 100
+      }
+    },
+    {
+      "id": "f7bc",
+      "name": "Nachtlampje Rechts",
+      "upcCode": "1111111111111",
+      "x": 0,
+      "y": 1,
+      "description": "",
+      "roomId": "82a9",
+      "type": "licht",
+      "value": {
+        "on_off": "off",
+        "brightness": 100
+      },
+      "defaultValue": {
+        "on_off": "off",
+        "brightness": 100
+      }
+    },
+    {
+      "id": "efa9",
+      "name": "Slot werkruimte",
+      "upcCode": "1111111111111",
+      "x": 0,
+      "y": 1,
+      "description": "",
+      "roomId": "2293",
+      "type": "deurslot",
+      "value": {
+        "open_closed": "closed"
+      },
+      "defaultValue": {
+        "open_closed": "closed"
+      }
+    },
+    {
+      "id": "fbcf",
+      "name": "Sfeerverlichting werkruimte",
+      "upcCode": "1111111111111",
+      "x": 8,
+      "y": 1,
+      "description": "",
+      "roomId": "2293",
+      "type": "licht",
+      "value": {
+        "on_off": "off",
+        "brightness": 100
+      },
+      "defaultValue": {
+        "on_off": "off",
+        "brightness": 100
+      }
+    },
+    {
+      "id": "7f10",
+      "name": "Muziekinstallatie werkruimte",
+      "upcCode": "1111111111111",
+      "x": 15,
+      "y": 1,
+      "description": "",
+      "roomId": "2293",
+      "type": "audio",
+      "value": {
+        "playlist": "classic",
+        "volume": 10
+      },
+      "defaultValue": {
+        "playlist": "classic",
+        "volume": 0
+      }
+    },
+    {
+      "id": "5244",
+      "name": "lamp spiegel",
+      "upcCode": "1111111111111",
+      "x": 4,
+      "y": 3,
+      "description": "Lamp die verwerkt zit in de badkamer spiegel.",
+      "roomId": "f238",
+      "type": "licht",
+      "value": {
+        "on_off": "on",
+        "brightness": 100
+      },
+      "defaultValue": {
+        "on_off": "off",
+        "brightness": 100
+      }
+    },
+    {
+      "id": "3088",
+      "name": "Spots woonkamer",
+      "upcCode": "1111111111111",
+      "x": 5,
+      "y": 5,
+      "description": "",
+      "roomId": "bd4d",
+      "type": "licht",
+      "value": {
+        "on_off": "off",
+        "brightness": 100
+      },
+      "defaultValue": {
+        "on_off": "off",
+        "brightness": 100
+      }
+    },
+    {
+      "id": "6716",
+      "name": "Deurslot voordeur",
+      "upcCode": "1111111111111",
+      "x": 0,
+      "y": 10,
+      "description": "",
+      "roomId": "bd4d",
+      "type": "deurslot",
+      "value": {
+        "open_closed": "closed"
+      },
+      "defaultValue": {
+        "open_closed": "closed"
+      }
+    },
+    {
+      "id": "fcda",
+      "name": "Radio keuken",
+      "upcCode": "1111111111111",
+      "x": 10,
+      "y": 3,
+      "description": "",
+      "roomId": "d601",
+      "type": "audio",
+      "value": {
+        "playlist": "Cooking Vibes",
+        "volume": 5
+      },
+      "defaultValue": {
+        "playlist": "classic",
+        "volume": 0
+      }
+    },
+    {
+      "id": "0780",
+      "name": "Verlichting keuken",
+      "upcCode": "1111111111111",
+      "x": 5,
+      "y": 2,
+      "description": "",
+      "roomId": "d601",
+      "type": "licht",
+      "value": {
+        "on_off": "on",
+        "brightness": 100
+      },
+      "defaultValue": {
+        "on_off": "off",
+        "brightness": 100
+      }
+    }
+  ],
+  "scenes": [
+    {
+      "id": "a35f",
+      "name": "Werkruimte",
+      "description": "",
+      "enabled": false,
+      "isGlobal": true,
+      "image": "",
+      "controls": [
+        {
+          "id": "7f10",
+          "controlType": "audio",
+          "value": {
+            "playlist": "classic",
+            "volume": 10
+          }
+        },
+        {
+          "id": "fbcf",
+          "controlType": "licht",
+          "value": {
+            "on_off": "on",
+            "brightness": 100
+          }
+        }
+      ],
+      "isAutomated": true
+    }
+  ],
+  "automations": [
+    {
+      "id": "bcf4",
+      "start": "2025-11-03T17:00:00.000Z",
+      "end": "2025-11-03T18:00:00.000Z",
+      "sceneId": "a35f",
+      "enabled": false,
+      "isInterrupted": false
+    }
+  ]
+}

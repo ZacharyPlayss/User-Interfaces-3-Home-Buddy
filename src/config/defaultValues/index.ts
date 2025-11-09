@@ -1,0 +1,1 @@
+export {domoticaControlTypeDefaultValues} from "./domoticaControls.ts"

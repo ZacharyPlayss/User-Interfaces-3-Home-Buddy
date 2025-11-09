@@ -1,0 +1,1 @@
+export type FloorPlanMode = "2D" | "3D";
