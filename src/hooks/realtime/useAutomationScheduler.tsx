@@ -40,14 +40,14 @@ export function useAutomationScheduler(enableLogging: boolean = false) {
     }
 
     function handleAutomationInterruptedByUser(automation: Automation) {
-        const {isInterrupted} = automation;
+        const { isInterrupted } = automation;
         const shouldInterrupt = !activeAutomation?.isInterrupted && isInterrupted;
         if (shouldInterrupt) {
             if (enableLogging) {
                 console.log('The found current automation should be interrupted!');
                 console.log('Disabling automation');
             }
-            disableActiveAutomation();
+            disableActiveAutomation(automation.id);
         }
     }
 

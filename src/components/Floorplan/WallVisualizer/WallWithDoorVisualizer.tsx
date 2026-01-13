@@ -2,7 +2,7 @@ import {useState} from "react";
 import type {WallVisualizerProps} from "./WallVisualizer.tsx";
 
 export function WallWithDoorVisualizer({width, height, positionX, positionY, doorRotation}: WallVisualizerProps) {
-    const [isDoorOpen, setDoorOpen] = useState(false);
+    const [isDoorOpen] = useState(false);
     return (
         <div
             style={{

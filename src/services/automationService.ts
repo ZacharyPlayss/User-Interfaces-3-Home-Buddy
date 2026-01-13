@@ -45,19 +45,22 @@ export async function updateAutomation(updatedAutomation: Automation): Promise<A
 export async function enableAutomation(automationId: string) {
     const automation = await getAutomation(automationId);
     const updatedAutomation = await updateAutomation({ ...automation, enabled: true });
-
     const scene = await getScene(updatedAutomation.sceneId);
-    await updateScene({ ...scene, enabled: true });
+    if (!scene || !scene.id) {
+        throw new Error(`Scene with id ${updatedAutomation.sceneId} not found`);
+    }
+    await updateScene({ ...scene, id: scene.id, enabled: true });
 
     return updatedAutomation;
 }
 export async function disableAutomation(automationId: string) {
     const automation = await getAutomation(automationId);
     const updatedAutomation = await updateAutomation({ ...automation, enabled: false });
-
     const scene = await getScene(updatedAutomation.sceneId);
-    await updateScene({ ...scene, enabled: false });
-
+    if (!scene || !scene.id) {
+        throw new Error(`Scene with id ${updatedAutomation.sceneId} not found`);
+    }
+    await updateScene({ ...scene, id: scene.id, enabled: false });
     return updatedAutomation;
 }
 

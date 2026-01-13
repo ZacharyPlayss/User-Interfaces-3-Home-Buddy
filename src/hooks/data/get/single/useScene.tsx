@@ -7,7 +7,11 @@ import {sceneQueryKeys} from "../../../../config/api/queryKeys";
 export function useScene(sceneId: string, options?: { enabled?: boolean }) {
     const {data: scene} = useSuspenseQuery<Scene>({
         queryKey: sceneQueryKeys.byId(sceneId),
-        queryFn: () => getScene(sceneId),
+        queryFn: async () => {
+            const data = await getScene(sceneId);
+            if (!data) throw new Error("Scene not found");
+            return data;
+        },
         ...options
     })
 

@@ -59,15 +59,21 @@ export const newDomoticaControlSchema = z.object({
         async (data) => {
             if (data.type === "deurslot") {
                 const room = await getRoom(data.roomId);
+                if (!room) return false;
                 const xPosNewControl = data.x;
                 const yPosNewControl = data.y;
-                return xPosNewControl === 0 || xPosNewControl === (room.width - wallWidth) || yPosNewControl === 0 || yPosNewControl === (room.height - wallHeight);
+                return (
+                    xPosNewControl === 0 ||
+                    xPosNewControl === (room.width - wallWidth) ||
+                    yPosNewControl === 0 ||
+                    yPosNewControl === (room.height - wallHeight)
+                );
             }
             return true;
         },
         {
-            message: "Een slot kan enkel op een muur bevestigd worden.",
-            path: ["type"],
+            message: "Een slot kan enkel op een muur bevestigd worden (of de kamer kon niet worden gevonden).",
+            path: ["x"],
         }
     )
 

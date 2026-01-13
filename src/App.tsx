@@ -29,12 +29,14 @@ function App() {
             <QueryClientProvider client={queryClient}>
                 <ThemeProvider theme={theme}>
                     <CssBaseline/>
-                    <BrowserRouter>
+                    <BrowserRouter basename="/project-hosts/homeBuddy">
                         <TourProvider
                             steps={steps}
                             showCloseButton={false}
                             showBadge={false}
-                            components={{ Navigation: (props) => <CustomTourNavigation {...props} /> }}
+                            components={{
+                                Navigation: (props: any) => <CustomTourNavigation {...(props as any)} />
+                            }}
                         >
                             <UserContextProvider>
                                 <RequiresUserBoundary>

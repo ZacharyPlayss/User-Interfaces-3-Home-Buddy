@@ -7,12 +7,7 @@ export function useDisableActiveAutomation() {
 
     const { mutateAsync: disableActiveAutomation, isPending, error } = useMutation({
         mutationFn: disableAutomation,
-        onSuccess: async (updatedAutomations) => {
-            updatedAutomations.forEach(automation => {
-                queryClient.invalidateQueries({
-                    queryKey: sceneQueryKeys.byId(automation.sceneId),
-                });
-            });
+        onSuccess: async () => {
             queryClient.invalidateQueries({
                 queryKey: automationQueryKeys.all
             });
