@@ -9,7 +9,7 @@ import {NavBarLink} from "./NavBarLink.tsx";
 import {useMediaQueries} from "../hooks/useMediaQueries.tsx";
 
 export function NavBar() {
-    const {isSmallScreen } = useMediaQueries();
+    const {isSmallScreen} = useMediaQueries();
     const [menuOpen, setMenuOpen] = useState(false);
     const toggleMenu = () => setMenuOpen((prev) => !prev);
 
@@ -48,10 +48,14 @@ export function NavBar() {
                         <Card id={"onboarding-fifth-step"}
                               sx={{display: "flex", alignItems: "center"}}>
                             <Stack direction={"row"}>
-                                <NavBarLink route={"/"} title={"Dashboard"}/>
-                                <NavBarLink route={"/building"} title={"Gebouw"}/>
-                                <NavBarLink route={"/devices"} title={"Apparaten"}/>
-                                <NavBarLink route={"/scenes"} title={"Scenes"}/>
+                                <NavBarLink route={"/"}
+                                            title={"Dashboard"}/>
+                                <NavBarLink route={"/building"}
+                                            title={"Gebouw"}/>
+                                <NavBarLink route={"/devices"}
+                                            title={"Apparaten"}/>
+                                <NavBarLink route={"/scenes"}
+                                            title={"Scenes"}/>
                             </Stack>
                         </Card>
                     )}
@@ -91,7 +95,7 @@ export function NavBar() {
                         </IconButton>
                         <Stack direction="column"
                                spacing={1}
-                               sx={{p: 2,mt:4}}>
+                               sx={{p: 2, mt: 4}}>
                             <Typography
                                 component={Link}
                                 to="/"
@@ -131,6 +135,31 @@ export function NavBar() {
                     </Paper>
                 </Collapse>
             )}
+            <Stack
+                width={"100%"}
+                sx={{
+                    position: "absolute",
+                    left: 0,
+                    top: "5%",
+                    zIndex: 999
+                }}
+                direction={"row"}
+                alignItems={"center"}
+                justifyContent={"center"}
+            >
+                <Typography
+                    variant={"h5"}
+                    sx={(theme) => ({
+                        width: "50%",
+                        textAlign: "center",
+                        fontWeight: "bold",
+                        color: theme.palette.primary.main,
+                    })}
+                >
+                    IMPORTANT! Since this is a demo the database operations happen inside the browser which limits these
+                    to 5 of each type.
+                </Typography>
+            </Stack>
         </>
     );
 }

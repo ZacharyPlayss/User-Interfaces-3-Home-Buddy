@@ -1,76 +1,77 @@
-import type {DomoticaControl, DomoticaControlWithoutIdOrValues, DomoticaControlWithoutValues} from "../model/DomoticaControl.ts";
-import axios from "axios";
-import {deleteScene, getScenesByControlId, updateScene} from "./sceneService.ts";
+import type { DomoticaControl, DomoticaControlWithoutIdOrValues } from "../model/DomoticaControl.ts";
+import { deleteScene, getScenesByControlId, updateScene } from "./sceneService.ts";
+import {db, DB_LIMITS, generateId} from "./in_memory_db/db.ts";
 
-export async function getDomoticaControl(id: string){
-    const {data:domoticaControl} = await axios.get<DomoticaControl>(`/domoticaControls/${id}`)
-    return domoticaControl;
+export async function getDomoticaControl(id: string) {
+    return db.domoticaControls.find(c => c.id === id);
 }
-export async function getAllDomoticaControlsForRoom(roomId: string) {
-    const { data: controls } = await axios.get<DomoticaControl[]>(`/domoticaControls?roomId=${roomId}`);
-    return controls;
-}
+
 export async function getAllDomoticaControls(){
-    const {data: controls} = await axios.get<DomoticaControl[]>(`/domoticaControls`)
-    return controls
-}
-export async function addDomoticaControl(domoticaControl:DomoticaControlWithoutIdOrValues){
-    const {data: newDomoticaControl} = await axios.post<DomoticaControlWithoutIdOrValues>('/domoticaControls', domoticaControl)
-    return newDomoticaControl
-}
-export async function updateDomoticaControl(updatedDomoticaControl: DomoticaControl){
-    const {data} = await axios.patch<DomoticaControlWithoutValues>(`/domoticaControls/${updatedDomoticaControl.id}`,{
-        ...updatedDomoticaControl
-    });
-    return data;
+    return db.domoticaControls;
 }
 
-export async function resetDomoticaControlValues(id:string){
-    const domoticaControl = await getDomoticaControl(id);
-    return await updateDomoticaControlValues(domoticaControl.id, domoticaControl.defaultValue);
+export async function getAllDomoticaControlsForRoom(roomId: string) {
+    return db.domoticaControls.filter(c => c.roomId === roomId);
 }
 
-export async function updateDomoticaControlValues(id: string, value: DomoticaControl['value']) {
-    const { data } = await axios.patch<DomoticaControl>(`/domoticaControls/${id}`, {
-        value:value,
-    });
-    return data;
+export async function addDomoticaControl(control: DomoticaControlWithoutIdOrValues) {
+    if (db.domoticaControls.length >= DB_LIMITS.CONTROLS) throw new Error("Limit reached");
+    const newControl = { ...control, id: generateId(), value: (control as any).defaultValue } as DomoticaControl;
+    db.domoticaControls.push(newControl);
+    return newControl;
 }
+
+export async function resetDomoticaControlValues(id: string) {
+    const control = await getDomoticaControl(id);
+    if (!control) throw new Error(`Control ${id} not found`);
+    return await updateDomoticaControlValues(id, control.defaultValue);
+}
+
+export async function updateDomoticaControlValues(id: string, value: any) {
+    const control = db.domoticaControls.find(c => c.id === id);
+    if (control) control.value = value;
+    return control;
+}
+
 export async function deleteDomoticaControl(id: string) {
-    await axios.delete(`/domoticaControls/${id}`)
+    db.domoticaControls = db.domoticaControls.filter(c => c.id !== id);
     const attachedScenes = await getScenesByControlId(id);
-    if (attachedScenes.length !== 0) {
-        const promises = attachedScenes.map(scene => {
-            if (scene.controls.length > 1) {
-                return updateScene({
-                    ...scene,
-                    controls: scene.controls.filter(control => control.id !== id),
-                });
-            } else {
-                return deleteScene(scene.id);
-            }
-        });
-
-        await Promise.all(promises);
+    for (const scene of attachedScenes) {
+        if (scene.controls.length > 1) {
+            await updateScene({ ...scene, controls: scene.controls.filter(c => c.id !== id) });
+        } else {
+            await deleteScene(scene.id);
+        }
     }
 }
 
-type ExclusionOptions={
-    domoticaControlId?: string;
-    excludeControl?:boolean;
+export async function roomIncludesAudioDomoticaControl(
+    roomId: string,
+    options?: { excludeControl?: boolean, domoticaControlId?: string }
+): Promise<boolean> {
+    return db.domoticaControls.some(c =>
+        c.roomId === roomId &&
+        c.type === "audio" &&
+        (options?.excludeControl ? c.id !== options.domoticaControlId : true)
+    );
 }
 
-export async function roomIncludesAudioDomoticaControl(roomId: string, options?:ExclusionOptions) {
-    let controls = await getAllDomoticaControlsForRoom(roomId);
-    if(options &&  options.excludeControl){
-       controls = controls.filter((control) => control.id != options.domoticaControlId);
-    }
-    return controls.some(control => control.type === "audio");
+export async function roomIncludesHeaterDomoticaControl(
+    roomId: string,
+    options?: { excludeControl?: boolean, domoticaControlId?: string }
+): Promise<boolean> {
+    return db.domoticaControls.some(c =>
+        c.roomId === roomId &&
+        c.type === "verwarming" &&
+        (options?.excludeControl ? c.id !== options.domoticaControlId : true)
+    );
 }
-export async function roomIncludesHeaterDomoticaControl(roomId: string,options?:ExclusionOptions) {
-    let controls = await getAllDomoticaControlsForRoom(roomId);
-    if(options && options.excludeControl){
-        controls = controls.filter((control) => control.id != options.domoticaControlId);
+export async function updateDomoticaControl(updatedControl: DomoticaControl) {
+    const index = db.domoticaControls.findIndex(c => c.id === updatedControl.id);
+    if (index === -1) {
+        throw new Error(`Control with id ${updatedControl.id} not found`);
     }
-    return controls.some(control => control.type === "verwarming");
+    db.domoticaControls[index] = { ...updatedControl };
+
+    return db.domoticaControls[index];
 }

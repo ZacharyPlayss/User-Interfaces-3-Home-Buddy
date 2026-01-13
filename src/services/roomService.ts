@@ -1,40 +1,39 @@
-import axios from "axios";
-import type {NewRoom, Room} from "../model/Room.ts";
-import {deleteDomoticaControl, getAllDomoticaControlsForRoom} from "./domoticaControlService.ts";
-import type {DomoticaControl} from "../model/DomoticaControl.ts";
+import type { Room, NewRoom } from "../model/Room.ts";
+import { deleteDomoticaControl } from "./domoticaControlService.ts";
+import {db, DB_LIMITS, generateId} from "./in_memory_db/db.ts";
 
-export async function getRoom(id: string){
-    const {data:room} = await axios.get<Room>(`/rooms/${id}`)
-    return room;
+export async function getRoom(id: string) {
+    return db.rooms.find(r => r.id === id);
 }
 
-export async function getAllRoomsOnFloor(floorId:string){
-    const {data: rooms} = await axios.get<Room[]>(`/rooms?floorId=${floorId}`)
-    return rooms
-}
-export async function getAllRooms(){
-    const {data: rooms} = await axios.get<Room[]>(`/rooms`)
-    return rooms
+export async function getAllRooms() {
+    return db.rooms;
 }
 
-export async function addRoom(room:NewRoom){
-    const {data: newRoom} = await axios.post<Room>('/rooms', room)
-    return newRoom
+
+export async function getAllRoomsOnFloor(floorId: string) {
+    return db.rooms.filter(r => r.floorId === floorId);
 }
-export async function updateRoom(updatedRoom: Room){
-    const {data} = await axios.patch<Room>(`/rooms/${updatedRoom.id}`,{
-        ...updatedRoom
-    });
-    return data;
+
+export async function addRoom(room: NewRoom) {
+    if (db.rooms.length >= DB_LIMITS.ROOMS) throw new Error("Limit reached");
+    const newRoom = { ...room, id: generateId() } as Room;
+    db.rooms.push(newRoom);
+    return newRoom;
 }
-export async function deleteRoom(id: string){
-    await axios.delete(`/rooms/${id}`)
-    const attachedDevices = await getAllDomoticaControlsForRoom(id);
-    if(attachedDevices.length != 0){
-        await Promise.all(
-            attachedDevices.map((domoticaControl: DomoticaControl) =>
-                deleteDomoticaControl(domoticaControl.id)
-            )
-        );
+
+export async function deleteRoom(id: string) {
+    db.rooms = db.rooms.filter(r => r.id !== id);
+    const devices = db.domoticaControls.filter(d => d.roomId === id);
+    for (const device of devices) {
+        await deleteDomoticaControl(device.id);
     }
+}
+export async function updateRoom(updatedRoom: Room): Promise<Room> {
+    const index = db.rooms.findIndex(r => r.id === updatedRoom.id);
+    if (index === -1) {
+        throw new Error(`Room with id ${updatedRoom.id} not found`);
+    }
+    db.rooms[index] = { ...updatedRoom };
+    return db.rooms[index];
 }
